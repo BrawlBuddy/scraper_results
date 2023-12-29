@@ -2,6 +2,20 @@
 
 JSON output of our Brawl Stars API scrapper. Sorted by country of club.
 
+## Picking Process
+
+Randomly selects map and game mode (map implies the game mode). 20 second timer starts with each member getting to pick one brawler to ban. Each player bans one. 3-6 banned. As each player picks, that player is also removed from the pool.
+
+## Weighting of options/results
+
+40% score aginst counter (1v1 )
+40% score against map
+20% score against pool
+
+## TODO
+
+create a cleaned json file that countains 
+
 ## Current Modes:
 
 ### ```1v1```
