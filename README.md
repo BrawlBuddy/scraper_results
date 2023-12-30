@@ -1,6 +1,6 @@
 # scraper_results
 
-JSON output of our Brawl Stars API scrapper. Sorted by country of club.
+JSON output of our Brawl Stars API scrapper. Sorted by country of club. In the process of developing the 'formatter' which converts the scrapper's output to form usable by the Brawler Manager.
 
 ## Picking Process
 
@@ -8,22 +8,80 @@ Randomly selects map and game mode (map implies the game mode). 20 second timer 
 
 ## Weighting of options/results
 
-40% score aginst counter (1v1 )
-40% score against map
-20% score against pool
+More information about the weighting will be included in the Brawler Manager repo. However these are are preliminary weights:
+
+- 40% score aginst counter (```1v1.json```)
+- 40% score against map (```map.json```)
+- 20% score against pool (```1v1.json```)
 
 ## TODO
 
-create a cleaned json file that countains 
-
-## Current Modes:
-
-### ```1v1```
-
-Performs a direct comparasion of Brawlers, ignoring maps and modes. The first file that needs to be run is ```1v1_scoring.py```, which gives a JSON file that has a list of all battle times for eachThe function ```find_all_winrates(brawler_name, dataset)``` returns ```(number_of_wins, number_of_games_found)``` for the inputed brawler against all Brawlers that have a recorded game against the input brawler. The function ```best_for_three(brawler_array, dataset)``` returns a list of tuples that show the sum of the win rates for a potential brawler against the input array of three brawlers, sorted in decreasing order.
+Revolve what's going on with the 1v1 win rates. I got different (more believable) win rates with ```alt_method_1v1_test.py```. Need to figure out why this happened, figure out which results are correct, and write a script to find the 1v1 win rates with a better time efficiency.
 
 
-### ```1v1mode```
+Need to figure out what is causing the weird team composition arrays outputted by the scrapper. 40k+ records seem to have this problem, as shown in ```test.py```. Will review:
+- what maps/gamemodes aren't 3v3 -> make sure they are excluded from the results
+- there are ~1.5k battles were the teams rousters are of uneven lengths -> was this a side effect of sets? (I don't think so, since there are battles that have duplicate brawlers) Maybe this has something to do with disconnects or quits?
+- ~39k of these battles have > 3 brawlers per team. What does this mean?
 
-Preforms a comparassion of Brawlers, accounting for the gamemode. Current implementation of the results codebase only includes one function ```find_all_winrates(brawler_name, game_mode, dataset)```, which preforms the same as in the ```1v1``` mode.
+## Current Outputs:
 
+### ```1v1.json```
+
+Maps two brawlers, sorted alphabetically to the first brawlers win rate in the given matchup. For example:
+```
+{
+    "CORDELIUS_HANK": 0.6609989373007439
+
+}
+```
+
+This excerpt shows that word CORDELIUS faces HANK, CORDELIUS wins 66.09989373007439% of the time.
+
+### ```map.json```
+The first layer of this file maps the game map to a dictionary of results regarding the 
+
+```
+{
+    "Off the Line": {
+        "CORDELIUS": 0.47469357124989575
+    }
+}
+```
+This excerpt shows that on the map Off the Line, Cordelius has a 47.469357124989575% win rate.
+
+### ```maps_modes.json```
+
+Contains an array of all maps played in the data set
+```
+[
+    ["Side by Side", "bounty"]
+]
+```
+This excerpt shows that on the map Side by Side, the gamemode is bounty.
+
+### ```2scores.json```
+
+Contains dictionary mapping a pair of brawlers sorted alphabetically to a tuple containing the number of games they have won and played together as a team. For example:
+```
+{
+    "AMBER_CORDELIUS": [
+        90621,
+        181240
+    ]
+}
+```
+This excerpt shows that AMBER and CORDELIUS have played together for 181,240 games and won 90,621 of them.
+
+### ```3scores.json```
+
+Contains dictionary mapping three brawlers sorted alphabetically to a tuple containing the number of games they have won and played together as a team. For example:
+```
+{
+    "AMBER_CORDELIUS_SPIKE": [
+        5,
+        11
+    ]
+}
+```
+This excerpt shows that AMBER, CORDELIUS, and SPIKE have played together for 11 games and won 5 of them.

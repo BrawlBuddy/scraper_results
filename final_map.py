@@ -35,7 +35,7 @@ for game_map in loaded_result.keys():
         games += len(loaded_result[game_map][brawler]['player1_wins'])+len(loaded_result[game_map][brawler]['player2_wins'])
         interm_result[game_map][brawlers[1]] = (wins,games)
 
-print(interm_result)
+#print(interm_result)
     
 max_win_rate = 0
 
