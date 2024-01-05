@@ -1,14 +1,9 @@
 import json
 
-result_jsons = ['AD.json', 'AF.json', 'AL.json', 'AS.json', 'DZ.json']
-
 all_merged_results = list()
 
-
-for file_name in result_jsons:
-    with open(file_name, "r") as f:
-        temp_result = json.load(f)
-        all_merged_results.extend(temp_result)
+with open("scrapper_out.json", "r") as f:
+    all_merged_results = json.load(f)
 
 duo_chem = dict()
 
